@@ -14,7 +14,7 @@ RAYCAST_ENABLED="off"
 AUTOLOGIN_ENABLED="on"
 
 # Load config if exists
-if [[ -f "$_WT_CONFIG_FILE" && ! -d "$_WT_CONFIG_FILE" ]]; then
+if [[ -f "$_WT_CONFIG_FILE" ]]; then
     source "$_WT_CONFIG_FILE"
 fi
 
@@ -306,13 +306,21 @@ wt() {
             [[ -f "$WT_SAVES_DIR/.warThunderProps.pblk" ]] && cp "$WT_SAVES_DIR/.warThunderProps.pblk" "$backup_dir/"
             [[ -f "$WT_SAVES_DIR/Saves/lastlogin.blk" ]] && cp "$WT_SAVES_DIR/Saves/lastlogin.blk" "$backup_dir/"
 
-            # Perform atomic-like copy
-            cp "$src/.warThunderProps.pblk" "$WT_SAVES_DIR/.warThunderProps.pblk" 2>/dev/null || {
-                echo "Error: Failed to restore session token."
+            # Perform atomic-like copy using temporary files
+            cp "$src/.warThunderProps.pblk" "$WT_SAVES_DIR/.warThunderProps.pblk.tmp" 2>/dev/null || {
+                echo "Error: Failed to read session token from profile."
                 return 1
             }
+            mv -f "$WT_SAVES_DIR/.warThunderProps.pblk.tmp" "$WT_SAVES_DIR/.warThunderProps.pblk"
+
             mkdir -p "$WT_SAVES_DIR/Saves"
-            cp "$src/lastlogin.blk" "$WT_SAVES_DIR/Saves/lastlogin.blk" 2>/dev/null
+            if [[ -f "$src/lastlogin.blk" ]]; then
+                cp "$src/lastlogin.blk" "$WT_SAVES_DIR/Saves/lastlogin.blk.tmp" 2>/dev/null
+                mv -f "$WT_SAVES_DIR/Saves/lastlogin.blk.tmp" "$WT_SAVES_DIR/Saves/lastlogin.blk"
+            fi
+
+            # Cleanup backup since operation succeeded atomically
+            rm -rf "$backup_dir"
 
             local partner_raw badge partner
             partner_raw=$(cat "$src/yupartner.blk" 2>/dev/null)

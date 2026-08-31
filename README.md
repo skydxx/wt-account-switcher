@@ -75,7 +75,7 @@ Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It s
 ## Security model (Local-Only)
 This tool is designed to be **safe by design** as a local utility:
 * **Local-only**: All profiles are saved locally on your computer.
-* **No network communication**: The switcher does not send your accounts, tokens, or configuration to any remote servers.
+* **No network communication**: The switcher itself does not make network requests or upload user data. War Thunder and its launcher communicate with their own servers normally.
 * **No backend**: It does not rely on or connect to any external services.
 * **No telemetry**: There is zero tracking or analytics.
 * **No process injection**: It does not intercept network traffic or modify the War Thunder process memory.
@@ -166,7 +166,7 @@ This is an unofficial community tool. It operates entirely locally and does not 
 ## Модель безопасности (Local-Only)
 Этот инструмент спроектирован так, чтобы быть **safe by design** в качестве локальной утилиты:
 * **Только локально**: Все профили сохраняются только на вашем жестком диске.
-* **Без сети**: Скрипт не отправляет ваши аккаунты, токены или конфигурацию на удалённые серверы.
+* **Без сети**: Сам скрипт не делает никаких сетевых запросов и не отправляет пользовательские данные. War Thunder и его лаунчер общаются со своими серверами в штатном режиме.
 * **Без бэкенда**: Утилита не зависит от внешних сервисов и не подключается к ним.
 * **Без телеметрии**: Отсутствует любой сбор статистики.
 * **Без инжектов**: Скрипт не перехватывает трафик и не читает память процесса War Thunder.

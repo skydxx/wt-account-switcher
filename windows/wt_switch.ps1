@@ -211,9 +211,10 @@ switch ($cmd) {
         if (Test-Path $auth1) { Copy-Item $auth1 "$backupDir\.warThunderProps.pblk" -Force }
         if (Test-Path $auth2) { Copy-Item $auth2 "$backupDir\lastlogin.blk" -Force }
 
-        # Perform copy
+        # Perform copy with atomic move
         try {
-            Copy-Item $auth1_src "$($Config.SavesDir)\.warThunderProps.pblk" -Force -ErrorAction Stop
+            Copy-Item $auth1_src "$($Config.SavesDir)\.warThunderProps.pblk.tmp" -Force -ErrorAction Stop
+            Move-Item "$($Config.SavesDir)\.warThunderProps.pblk.tmp" "$($Config.SavesDir)\.warThunderProps.pblk" -Force -ErrorAction Stop
         } catch {
             Write-Host "Error: Failed to restore session token." -ForegroundColor Red
             exit 1
@@ -223,7 +224,13 @@ switch ($cmd) {
         if (-not (Test-Path $savesSubDir)) { New-Item -ItemType Directory -Path $savesSubDir | Out-Null }
         
         $auth2_src = "$src\lastlogin.blk"
-        if (Test-Path $auth2_src) { Copy-Item $auth2_src "$savesSubDir\lastlogin.blk" -Force }
+        if (Test-Path $auth2_src) {
+            Copy-Item $auth2_src "$savesSubDir\lastlogin.blk.tmp" -Force -ErrorAction SilentlyContinue
+            Move-Item "$savesSubDir\lastlogin.blk.tmp" "$savesSubDir\lastlogin.blk" -Force -ErrorAction SilentlyContinue
+        }
+
+        # Cleanup backup since operation succeeded atomically
+        if (Test-Path $backupDir) { Remove-Item -Recurse -Force $backupDir }
 
         $partnerRaw = Get-Content "$src\yupartner.blk"
         $partnerStr = if ($partnerRaw -like "*pixelstorm*") { "pixelstorm" } else { "gaijin" }
