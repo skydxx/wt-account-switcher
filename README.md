@@ -140,3 +140,6 @@ This is an unofficial community tool. It operates entirely locally and does not 
 
 ## Важное предупреждение
 Это неофициальный фанатский инструмент. Он работает исключительно локально и никак не модифицирует память игры или сетевой трафик. Однако, согласно Пользовательскому соглашению (TOS) Gaijin Entertainment, создание нескольких аккаунтов запрещено. Вы используете этот скрипт на свой страх и риск.
+
+## License
+This project is licensed under the [MIT License](LICENSE).
