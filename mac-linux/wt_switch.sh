@@ -14,11 +14,13 @@ RAYCAST_ENABLED="off"
 AUTOLOGIN_ENABLED="on"
 
 # Load config if exists
-if [[ -f "$_WT_CONFIG_FILE" ]]; then
+if [[ -f "$_WT_CONFIG_FILE" && ! -d "$_WT_CONFIG_FILE" ]]; then
     source "$_WT_CONFIG_FILE"
 fi
 
 _wt_save_config() {
+    # Ensure config and accounts are private
+    umask 077
     mkdir -p "$_WT_CONFIG_DIR"
     cat > "$_WT_CONFIG_FILE" << EOF
 WT_LAUNCHER_PATH="$WT_LAUNCHER_PATH"
@@ -206,8 +208,16 @@ wt() {
                 echo "Usage: wt save $server <name>"
                 return 1
             fi
+            
+            if [[ ! -f "$WT_SAVES_DIR/.warThunderProps.pblk" ]]; then
+                echo "Error: Cannot find active session token in '$WT_SAVES_DIR'."
+                echo "Please log into the game normally first, checking 'Save Password'."
+                return 1
+            fi
 
             local dest="$_WT_ACCOUNTS_DIR/$name"
+            # Private directory
+            umask 077
             mkdir -p "$dest"
 
             # Copy in-game auth files
@@ -281,12 +291,26 @@ wt() {
                 echo "Account '$name' not found. List accounts: wt list"
                 return 1
             fi
+            if [[ ! -f "$src/.warThunderProps.pblk" ]]; then
+                echo "Error: Profile '$name' is corrupted (missing session token)."
+                return 1
+            fi
 
             pkill -9 -f "WarThunderLauncher" 2>/dev/null || true
             pkill -9 -f "aces" 2>/dev/null || true
             sleep 0.2
 
-            cp "$src/.warThunderProps.pblk" "$WT_SAVES_DIR/.warThunderProps.pblk" 2>/dev/null
+            # Backup current active session just in case
+            local backup_dir="$WT_SAVES_DIR/Saves/wt_switcher_backup"
+            mkdir -p "$backup_dir"
+            [[ -f "$WT_SAVES_DIR/.warThunderProps.pblk" ]] && cp "$WT_SAVES_DIR/.warThunderProps.pblk" "$backup_dir/"
+            [[ -f "$WT_SAVES_DIR/Saves/lastlogin.blk" ]] && cp "$WT_SAVES_DIR/Saves/lastlogin.blk" "$backup_dir/"
+
+            # Perform atomic-like copy
+            cp "$src/.warThunderProps.pblk" "$WT_SAVES_DIR/.warThunderProps.pblk" 2>/dev/null || {
+                echo "Error: Failed to restore session token."
+                return 1
+            }
             mkdir -p "$WT_SAVES_DIR/Saves"
             cp "$src/lastlogin.blk" "$WT_SAVES_DIR/Saves/lastlogin.blk" 2>/dev/null
 

@@ -134,11 +134,17 @@ switch ($cmd) {
 
         if ($server -notin @("pix", "global")) { Write-Host "Usage: wt save pix <name> OR wt save global <name>"; exit 1 }
         if ([string]::IsNullOrEmpty($name)) { Write-Host "Usage: wt save $server <name>"; exit 1 }
+        
+        $auth1 = "$($Config.SavesDir)\.warThunderProps.pblk"
+        if (-not (Test-Path $auth1)) {
+            Write-Host "Error: Cannot find active session token in $($Config.SavesDir)." -ForegroundColor Red
+            Write-Host "Please log into the game normally first, checking 'Save Password'." -ForegroundColor Yellow
+            exit 1
+        }
 
         $dest = "$AccountsDir\$name"
         if (-not (Test-Path $dest)) { New-Item -ItemType Directory -Path $dest | Out-Null }
 
-        $auth1 = "$($Config.SavesDir)\.warThunderProps.pblk"
         $auth2 = "$($Config.SavesDir)\Saves\lastlogin.blk"
         if (Test-Path $auth1) { Copy-Item $auth1 "$dest\.warThunderProps.pblk" -Force }
         if (Test-Path $auth2) { Copy-Item $auth2 "$dest\lastlogin.blk" -Force }
@@ -186,16 +192,38 @@ switch ($cmd) {
         $src = "$AccountsDir\$name"
         if (-not (Test-Path $src)) { Write-Host "Account '$name' not found. List accounts: wt list" -ForegroundColor Red; exit 1 }
 
+        $auth1_src = "$src\.warThunderProps.pblk"
+        if (-not (Test-Path $auth1_src)) {
+            Write-Host "Error: Profile '$name' is corrupted (missing session token)." -ForegroundColor Red
+            exit 1
+        }
+
         Stop-Process -Name "WarThunderLauncher" -Force -ErrorAction SilentlyContinue
         Stop-Process -Name "aces" -Force -ErrorAction SilentlyContinue
         Start-Sleep -Milliseconds 200
 
-        $auth1 = "$src\.warThunderProps.pblk"
-        $auth2 = "$src\lastlogin.blk"
-        if (Test-Path $auth1) { Copy-Item $auth1 "$($Config.SavesDir)\.warThunderProps.pblk" -Force }
+        # Backup current session
+        $backupDir = "$($Config.SavesDir)\Saves\wt_switcher_backup"
+        if (-not (Test-Path $backupDir)) { New-Item -ItemType Directory -Path $backupDir | Out-Null }
+        
+        $auth1 = "$($Config.SavesDir)\.warThunderProps.pblk"
+        $auth2 = "$($Config.SavesDir)\Saves\lastlogin.blk"
+        if (Test-Path $auth1) { Copy-Item $auth1 "$backupDir\.warThunderProps.pblk" -Force }
+        if (Test-Path $auth2) { Copy-Item $auth2 "$backupDir\lastlogin.blk" -Force }
+
+        # Perform copy
+        try {
+            Copy-Item $auth1_src "$($Config.SavesDir)\.warThunderProps.pblk" -Force -ErrorAction Stop
+        } catch {
+            Write-Host "Error: Failed to restore session token." -ForegroundColor Red
+            exit 1
+        }
+        
         $savesSubDir = "$($Config.SavesDir)\Saves"
         if (-not (Test-Path $savesSubDir)) { New-Item -ItemType Directory -Path $savesSubDir | Out-Null }
-        if (Test-Path $auth2) { Copy-Item $auth2 "$savesSubDir\lastlogin.blk" -Force }
+        
+        $auth2_src = "$src\lastlogin.blk"
+        if (Test-Path $auth2_src) { Copy-Item $auth2_src "$savesSubDir\lastlogin.blk" -Force }
 
         $partnerRaw = Get-Content "$src\yupartner.blk"
         $partnerStr = if ($partnerRaw -like "*pixelstorm*") { "pixelstorm" } else { "gaijin" }

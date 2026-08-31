@@ -6,7 +6,7 @@
 
 A fast, safe, and open-source local account switcher for War Thunder. Works on **Windows, macOS, and Linux**.
 
-Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It simply swaps your local game settings and session tokens before launching the game, acting exactly as if you manually typed your password and checked "Save Password" in the game menu.
+Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It simply swaps your local game settings and session tokens before launching the game, acting exactly as if you restored a valid local session state that War Thunder uses for auto-login.
 
 ## Features
 - Save and switch between multiple accounts instantly via CLI or Desktop shortcuts.
@@ -66,9 +66,24 @@ Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It s
 | `wt config autologin on/off` | Toggle whether saved accounts use autologin |
 | `wt config raycast on/off` | (Mac only) Toggle Raycast script generation |
 
-## ⚠️ Security Warning
-**Beware of closed-source forks and paid alternatives!**
-This script is completely open-source and free. If someone tries to sell you this tool or offers it as a closed `.exe` file without source code — **do not use it!** Closed-source tools can silently steal your authentication tokens (`.warThunderProps.pblk`) and hijack your game accounts. Only use open-source scripts where you can verify the code yourself.
+## How it works
+1. War Thunder stores your local authentication state (`.warThunderProps.pblk` and `lastlogin.blk`) when you log in.
+2. When you use `wt save`, the switcher copies this local state into a separate profile folder.
+3. When you switch accounts via `wt <name>`, the switcher restores that specific profile back into the game directory.
+4. The game is then launched normally. The switcher does not modify game binaries or interfere with its running process.
+
+## Security model (Local-Only)
+This tool is designed to be **safe by design** as a local utility:
+* **Local-only**: All profiles are saved locally on your computer.
+* **No network communication**: The switcher does not send your accounts, tokens, or configuration to any remote servers.
+* **No backend**: It does not rely on or connect to any external services.
+* **No telemetry**: There is zero tracking or analytics.
+* **No process injection**: It does not intercept network traffic or modify the War Thunder process memory.
+* **Open source**: You can inspect every line of code to verify its behavior.
+
+## ⚠️ Trusting the tool
+Because this tool manages your local authentication and session tokens, **you must trust the version you are running.** The open-source nature of this repository allows you to verify that it does not send your data anywhere. 
+*Beware of closed-source forks, paid alternatives, or compiled `.exe` variants.* If you cannot read the source code, you cannot verify that the program isn't silently stealing your `.warThunderProps.pblk` token. Only use open-source tools for managing session data.
 
 ---
 
@@ -82,7 +97,7 @@ This is an unofficial community tool. It operates entirely locally and does not 
 
 Быстрый, безопасный и открытый локальный менеджер аккаунтов для War Thunder. Работает на **Windows, macOS и Linux**.
 
-Скрипт **НЕ** изменяет бинарные файлы игры, не внедряется в процессы и не триггерит античит (EAC). Он просто подменяет локальные файлы настроек и токены сессии до запуска игры. Для игры это выглядит так, будто вы сами ввели пароль и нажали «Сохранить пароль».
+Скрипт **НЕ** изменяет бинарные файлы игры, не внедряется в процессы и не триггерит античит (EAC). Он просто подменяет локальные файлы настроек и токены сессии до запуска игры, действуя так, будто вы восстановили валидное локальное состояние авторизации, которое War Thunder использует для автологина.
 
 ## Возможности
 - Мгновенное сохранение и переключение между несколькими аккаунтами через консоль или ярлыки на рабочем столе.
@@ -142,9 +157,24 @@ This is an unofficial community tool. It operates entirely locally and does not 
 | `wt config autologin on/off` | Включить/выключить автологин для сохраненных аккаунтов |
 | `wt config raycast on/off` | (Только Mac) Включить/выключить генерацию скриптов Raycast |
 
-## ⚠️ Предупреждение о безопасности
-**Осторожно с закрытыми форками и платными аналогами!**
-Этот скрипт полностью открыт и бесплатен. Если кто-то пытается продать вам эту утилиту или предлагает её в виде закрытого `.exe` файла (без исходного кода) — **ни в коем случае не используйте это!** Программы с закрытым кодом могут незаметно скопировать ваши токены авторизации (`.warThunderProps.pblk`) и угнать ваши игровые аккаунты. Используйте только открытые скрипты, код которых вы можете прочитать и проверить сами.
+## Как это работает
+1. При входе в игру War Thunder сохраняет ваше локальное состояние авторизации (`.warThunderProps.pblk` и `lastlogin.blk`).
+2. При использовании `wt save`, скрипт копирует это состояние в отдельную папку профиля.
+3. При переключении через `wt <имя>`, скрипт восстанавливает нужный профиль обратно в папку игры.
+4. После этого игра запускается обычным образом. Скрипт не изменяет бинарные файлы и не вмешивается в процесс игры.
+
+## Модель безопасности (Local-Only)
+Этот инструмент спроектирован так, чтобы быть **safe by design** в качестве локальной утилиты:
+* **Только локально**: Все профили сохраняются только на вашем жестком диске.
+* **Без сети**: Скрипт не отправляет ваши аккаунты, токены или конфигурацию на удалённые серверы.
+* **Без бэкенда**: Утилита не зависит от внешних сервисов и не подключается к ним.
+* **Без телеметрии**: Отсутствует любой сбор статистики.
+* **Без инжектов**: Скрипт не перехватывает трафик и не читает память процесса War Thunder.
+* **Открытый код**: Вы можете лично изучить каждую строчку кода.
+
+## ⚠️ Кому доверять
+Поскольку этот инструмент работает с вашими токенами сессий, **вы должны доверять той версии кода, которую запускаете.** Открытый исходный код этого репозитория позволяет вам самостоятельно убедиться, что программа ничего не крадёт.
+*Осторожно с закрытыми форками, платными аналогами или скомпилированными `.exe` сборками.* Если вы не можете прочитать исходный код программы, вы не можете быть уверены, что она скрытно не копирует файл `.warThunderProps.pblk`. Доверяйте свои сессионные данные только открытому софту.
 
 ---
 
@@ -152,4 +182,4 @@ This is an unofficial community tool. It operates entirely locally and does not 
 Это неофициальный фанатский инструмент. Он работает исключительно локально и никак не модифицирует память игры или сетевой трафик. Однако, согласно Пользовательскому соглашению (TOS) Gaijin Entertainment, создание нескольких аккаунтов запрещено. Вы используете этот скрипт на свой страх и риск.
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
+This project is provided under a [Non-Commercial Source-Available License](LICENSE). Commercial use and monetization are strictly prohibited.
