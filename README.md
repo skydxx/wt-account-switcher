@@ -4,7 +4,7 @@
 
 🇷🇺 *[Русская версия ниже (Russian version below)](#русская-версия)*
 
-A fast, safe, and open-source local account switcher for War Thunder. Works on **Windows, macOS, and Linux**.
+A fast, safe, and source-available local account switcher for War Thunder. Works on **Windows, macOS, and Linux**.
 
 Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It simply swaps your local game settings and session tokens before launching the game, acting exactly as if you restored a valid local session state that War Thunder uses for auto-login.
 
@@ -79,11 +79,11 @@ This tool is designed to be **safe by design** as a local utility:
 * **No backend**: It does not rely on or connect to any external services.
 * **No telemetry**: There is zero tracking or analytics.
 * **No process injection**: It does not intercept network traffic or modify the War Thunder process memory.
-* **Open source**: You can inspect every line of code to verify its behavior.
+* **Source-available**: You can inspect every line of code to verify its behavior.
 
 ## ⚠️ Trusting the tool
-Because this tool manages your local authentication and session tokens, **you must trust the version you are running.** The open-source nature of this repository allows you to verify that it does not send your data anywhere. 
-*Beware of closed-source forks, paid alternatives, or compiled `.exe` variants.* If you cannot read the source code, you cannot verify that the program isn't silently stealing your `.warThunderProps.pblk` token. Only use open-source tools for managing session data.
+Because this tool manages your local authentication and session tokens, **you must trust the version you are running.** The source-available nature of this repository allows you to verify that it does not send your data anywhere. 
+*Beware of closed-source forks, paid alternatives, or compiled `.exe` variants.* If you cannot read the source code, you cannot verify that the program isn't silently stealing your `.warThunderProps.pblk` token. Only use tools where the source code is public and verifiable for managing session data.
 
 ---
 
