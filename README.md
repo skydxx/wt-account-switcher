@@ -9,12 +9,17 @@ A fast, safe, and source-available local account switcher for War Thunder. Works
 Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It simply swaps your local game settings and session tokens before launching the game, acting exactly as if you restored a valid local session state that War Thunder uses for auto-login.
 
 ## Features
-- Save and switch between multiple accounts instantly via CLI or Desktop shortcuts.
-- Toggles `pixelstorm` (CIS) and `gaijin` (Global) regions automatically based on the saved account.
-- Disables autologin when running the vanilla launcher so you can safely log into a new account.
-- **Windows**: Generates `WT Accounts` shortcuts on your Desktop.
-- **macOS**: Can automatically generate scripts for [Raycast](https://www.raycast.com/).
-- **Linux**: Works seamlessly with Steam Proton and native clients.
+This utility solves two main problems for players:
+
+**1. Region Switching**
+* Quickly switch between **Pixelstorm (CIS)** and **Gaijin (Global)** regions without maintaining two separate game clients.
+
+**2. Account Switching**
+* Save multiple local session states and switch between accounts instantly via CLI or Desktop shortcuts without typing passwords.
+* Raycast support on macOS for quick switching via Spotlight-like search.
+* **Windows**: Generates `WT Accounts` shortcuts on your Desktop.
+* **macOS**: Can automatically generate scripts for [Raycast](https://www.raycast.com/).
+* **Linux**: Works seamlessly with Steam Proton and native clients.
 
 ---
 
@@ -100,12 +105,16 @@ This is an unofficial community tool. It operates entirely locally and does not 
 Скрипт **НЕ** изменяет бинарные файлы игры, не внедряется в процессы и не триггерит античит (EAC). Он просто подменяет локальные файлы настроек и токены сессии до запуска игры, действуя так, будто вы восстановили валидное локальное состояние авторизации, которое War Thunder использует для автологина.
 
 ## Возможности
-- Мгновенное сохранение и переключение между несколькими аккаунтами через консоль или ярлыки на рабочем столе.
-- Автоматически переключает регионы между `pixelstorm` (СНГ) и `gaijin` (Глобал) в зависимости от сохраненного аккаунта.
-- Автоматически отключает автологин при обычном запуске (чтобы вы могли спокойно войти в новый аккаунт).
-- **Windows**: Генерирует удобные ярлыки в папке `WT Accounts` на рабочем столе.
-- **macOS**: Умеет автоматически генерировать скрипты для [Raycast](https://www.raycast.com/).
-- **Linux**: Отлично работает как с нативным клиентом, так и через Steam Proton.
+Утилита решает две главные проблемы игроков:
+
+**1. Смена региона (Region Switching)**
+* Быстрое переключение между серверами **Pixelstorm (СНГ)** и **Gaijin (Global)** без необходимости держать на диске два разных клиента.
+
+**2. Смена аккаунта (Account Switching)**
+* Сохранение нескольких локальных сессий и мгновенное переключение между ними через консоль или ярлыки без необходимости вводить пароль.
+* **Windows**: Автоматически создает папку `WT Accounts` с ярлыками на рабочем столе.
+* **macOS**: Может генерировать скрипты для [Raycast](https://www.raycast.com/).
+* **Linux**: Отлично работает с нативными клиентами и Steam Proton.
 
 ---
 
