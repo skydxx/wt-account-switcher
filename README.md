@@ -54,7 +54,7 @@ Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It s
 | Command | Description |
 |---|---|
 | `wt` | Launch WT (Pixelstorm) and force manual login |
-| `wt global` | Launch WT (Global) and force manual login |
+| `wt global` (or `wtglobal`) | Launch WT (Global) and force manual login |
 | `wt <name>` | Launch a saved account with autologin |
 | `wt save pix <name>` | Save current session as a Pixelstorm account |
 | `wt save global <name>`| Save current session as a Global account |
@@ -126,7 +126,7 @@ This is an unofficial community tool. It operates entirely locally and does not 
 | Команда | Описание |
 |---|---|
 | `wt` | Запустить WT (Pixelstorm) и принудительно запросить ручной логин |
-| `wt global` | Запустить WT (Global) и принудительно запросить ручной логин |
+| `wt global` (или `wtglobal`) | Запустить WT (Global) и принудительно запросить ручной логин |
 | `wt <имя>` | Запустить сохраненный аккаунт (сработает автологин) |
 | `wt save pix <имя>` | Сохранить текущую сессию как аккаунт Pixelstorm |
 | `wt save global <имя>`| Сохранить текущую сессию как аккаунт Global |
