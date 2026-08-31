@@ -1,5 +1,6 @@
 # War Thunder Account Switcher
 
+<img src="logo.jpg" width="120" align="right" alt="WT Account Switcher Logo">
 🇷🇺 *[Русская версия ниже (Russian version below)](#русская-версия)*
 
 A fast, safe, and open-source local account switcher for War Thunder. Works on **Windows, macOS, and Linux**.
