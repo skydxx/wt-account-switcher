@@ -64,6 +64,10 @@ Does **NOT** modify game files, hook into processes, or trigger anti-cheat. It s
 | `wt config autologin on/off` | Toggle whether saved accounts use autologin |
 | `wt config raycast on/off` | (Mac only) Toggle Raycast script generation |
 
+## ⚠️ Security Warning
+**Beware of closed-source forks and paid alternatives!**
+This script is completely open-source and free. If someone tries to sell you this tool or offers it as a closed `.exe` file without source code — **do not use it!** Closed-source tools can silently steal your authentication tokens (`.warThunderProps.pblk`) and hijack your game accounts. Only use open-source scripts where you can verify the code yourself.
+
 ---
 
 ## Disclaimer
@@ -135,6 +139,10 @@ This is an unofficial community tool. It operates entirely locally and does not 
 | `wt config setup` | Заново настроить пути к игре и сохранениям |
 | `wt config autologin on/off` | Включить/выключить автологин для сохраненных аккаунтов |
 | `wt config raycast on/off` | (Только Mac) Включить/выключить генерацию скриптов Raycast |
+
+## ⚠️ Предупреждение о безопасности
+**Осторожно с закрытыми форками и платными аналогами!**
+Этот скрипт полностью открыт и бесплатен. Если кто-то пытается продать вам эту утилиту или предлагает её в виде закрытого `.exe` файла (без исходного кода) — **ни в коем случае не используйте это!** Программы с закрытым кодом могут незаметно скопировать ваши токены авторизации (`.warThunderProps.pblk`) и угнать ваши игровые аккаунты. Используйте только открытые скрипты, код которых вы можете прочитать и проверить сами.
 
 ---
 
